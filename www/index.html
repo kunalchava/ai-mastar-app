@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CIPHERX AI + PAGER-X</title>
+<style>
+:root{color-scheme:dark;--bg:#04070b;--bg2:#08111a;--panel:#0a141d;--line:#16303d;--tx:#d8e8ee;--mut:#7f98a5;--cy:#22e5d4;--gr:#35e08a;--vi:#a78bfa;--am:#f5b942;--bl:#4aa3ff;--rd:#ff5c70;--r:10px;--g:14px;--safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}[hidden]{display:none!important}html,body{height:100%}
+body{margin:0;background:radial-gradient(1200px 600px at 70% -10%,#0b2a33 0,transparent 60%),var(--bg);color:var(--tx);font:14px/1.45 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;padding-top:var(--safe-t)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--cy);outline-offset:2px;border-radius:6px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.app{display:grid;grid-template-columns:216px 1fr;grid-template-rows:56px 1fr;min-height:100%;}
+header{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--line);background:#050b11e6;position:sticky;top:var(--safe-t);z-index:20}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.08em}
+.brand b{color:var(--cy);text-shadow:0 0 12px #22e5d455}
+.brand small{display:block;font-weight:400;letter-spacing:.04em;color:var(--mut);font-size:11px}
+.logo{width:30px;height:30px;border:1px solid var(--cy);border-radius:8px;display:grid;place-items:center;color:var(--cy);box-shadow:0 0 14px #22e5d433}
+.badge{font-size:11px;padding:2px 8px;border:1px solid var(--line);border-radius:99px;color:var(--cy);background:#0a1d24}
+.sp{flex:1}
+.ib{position:relative;background:none;border:1px solid var(--line);border-radius:8px;height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 8px}
+.ib:hover{border-color:var(--cy)}
+.dot{position:absolute;top:4px;right:4px;min-width:15px;height:15px;border-radius:9px;background:var(--rd);font-size:10px;display:grid;place-items:center;color:#fff}
+.menuwrap{position:relative}
+.menu{position:absolute;right:0;top:40px;width:260px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:6px;box-shadow:0 12px 40px #000a;z-index:40}
+.menu[hidden]{display:none}
+.menu button,.menu .row{display:block;width:100%;text-align:left;background:none;border:0;padding:8px;border-radius:6px;font-size:13px}
+.menu button:hover{background:#12303a}
+.menu .row small{color:var(--mut);display:block}
+nav{border-right:1px solid var(--line);padding:10px 8px;overflow:auto;background:#050c12;position:sticky;top:calc(56px + var(--safe-t));height:calc(100vh - 56px - var(--safe-t));align-self:start}
+nav button{display:flex;align-items:center;gap:10px;width:100%;background:none;border:1px solid transparent;border-radius:8px;padding:8px 10px;color:var(--mut);text-align:left}
+nav button:hover{color:var(--tx);background:#0d1c26}
+nav button[aria-current=page]{color:var(--cy);background:linear-gradient(90deg,#0e2e34,#08161d);border-color:#1b4a53;box-shadow:inset 3px 0 0 var(--cy)}
+main{padding:16px;min-width:0}
+.bn{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--am);border:1px dashed #5a4a1f;background:#1a1507;border-radius:8px;padding:6px 10px;margin-bottom:14px}
+h1{font-size:18px;margin:0 0 12px;letter-spacing:.04em}
+h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin:0 0 10px;font-weight:600}
+.grid{display:grid;gap:var(--g)}
+.stats{grid-template-columns:repeat(5,minmax(0,1fr));margin-bottom:var(--g)}
+.cols{grid-template-columns:minmax(0,1.1fr) minmax(0,1.5fr) minmax(0,1fr);margin-bottom:var(--g)}
+.cols2{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);margin-bottom:var(--g)}
+.card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:var(--r);padding:14px;min-width:0}
+button.card{text-align:left;width:100%;transition:.15s}
+button.card:hover{border-color:var(--cy);box-shadow:0 0 18px #22e5d422}
+.stat .v{font-size:26px;font-weight:700;margin:4px 0}.stat .l{color:var(--mut);font-size:12px;display:flex;gap:8px;align-items:center}
+.c-cy{color:var(--cy)}.c-gr{color:var(--gr)}.c-vi{color:var(--vi)}.c-am{color:var(--am)}.c-bl{color:var(--bl)}.c-rd{color:var(--rd)}
+.sq{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid #10222c;width:100%;background:none;border-left:0;border-right:0;border-top:0;text-align:left}
+.sq:last-child{border-bottom:0}.sq:hover .nm{color:var(--cy)}
+.bar{height:5px;background:#0f2530;border-radius:3px;overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;background:var(--c,var(--cy));box-shadow:0 0 8px var(--c,var(--cy))}
+.legend{display:flex;gap:14px;font-size:12px;flex-wrap:wrap;margin-bottom:6px}
+.legend span{display:flex;gap:6px;align-items:center}.legend i{width:10px;height:3px;border-radius:2px;background:var(--c)}
+.chart{width:100%;height:190px;display:block}
+.dev{display:grid;gap:6px;font-size:13px}.dev .r{display:flex;justify-content:space-between;color:var(--mut)}.dev .r b{color:var(--tx);font-weight:500}
+.pill{font-size:11px;padding:1px 8px;border-radius:99px;border:1px solid;display:inline-block}
+.btn{background:#0d2a32;border:1px solid #1b5560;color:var(--cy);border-radius:8px;padding:7px 12px;margin-top:10px}
+.btn:hover{background:#12404b}.btn[disabled]{opacity:.6;cursor:wait}
+.sev{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}.sev div{text-align:center;border:1px solid var(--line);border-radius:8px;padding:6px 0}.sev b{display:block;font-size:20px}
+.feed{list-style:none;margin:0;padding:0}.feed li{display:grid;grid-template-columns:20px 1fr auto;gap:8px;padding:7px 0;border-bottom:1px solid #10222c;font-size:13px}.feed li:last-child{border:0}.feed time{color:var(--mut);font-size:12px}
+.flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;align-items:stretch;counter-reset:s}
+.node{border:1px solid var(--line);border-radius:10px;padding:10px;background:#07131b;position:relative;font-size:12px}
+.node b{display:block;font-size:13px;margin:4px 0}.node:not(:last-child)::after{content:"";position:absolute;right:-11px;top:50%;width:11px;border-top:2px solid var(--cy);box-shadow:0 0 6px var(--cy)}
+.node.hl{border-color:var(--cy);box-shadow:0 0 16px #22e5d433}
+.health{display:flex;gap:16px;align-items:center}
+.ring{--p:98;width:96px;height:96px;border-radius:50%;background:conic-gradient(var(--gr) calc(var(--p)*1%),#10252e 0);display:grid;place-items:center;flex:none}
+.ring span{width:76px;height:76px;border-radius:50%;background:var(--panel);display:grid;place-items:center;font-size:22px;font-weight:700}
+.rep{display:flex;flex-wrap:wrap;gap:8px}.rep button{border:1px solid var(--line);background:#08141c;border-radius:8px;padding:8px 12px;display:flex;gap:8px;align-items:center}.rep button:hover{border-color:var(--cy)}
+.mobile-only{display:none}
+.assist{display:flex;gap:8px;margin-bottom:10px}
+.assist input{flex:1;min-width:0;background:#06111a;border:1px solid var(--line);color:var(--tx);border-radius:10px;padding:10px 12px;font:inherit}
+.assist input:focus{outline:2px solid var(--cy);outline-offset:1px}
+.reply{border-left:2px solid var(--cy);background:#07161d;padding:8px 10px;border-radius:0 8px 8px 0;font-size:13px;margin-bottom:10px;color:var(--tx)}
+.reply small{color:var(--am);display:block}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tiles button{border:1px solid var(--line);background:linear-gradient(180deg,#0b1a24,#07111a);border-radius:10px;padding:12px 4px;display:grid;justify-items:center;gap:6px;font-size:11px;text-align:center}
+.tiles button:hover{border-color:var(--cy)}
+.empty{text-align:center;color:var(--mut);padding:30px 10px}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:8px;border-bottom:1px solid #10222c}th{color:var(--mut);font-weight:500;font-size:12px}
+.tabbar{display:none}
+.toast{position:fixed;left:50%;bottom:calc(20px + var(--safe-b));transform:translateX(-50%);background:#0d2a32;border:1px solid var(--cy);padding:9px 16px;border-radius:10px;z-index:80;max-width:90vw;box-shadow:0 8px 30px #000a}
+dialog{background:var(--panel);color:var(--tx);border:1px solid var(--cy);border-radius:12px;padding:18px;max-width:min(520px,92vw);width:100%;box-shadow:0 0 40px #22e5d422}
+dialog::backdrop{background:#000b}
+dialog h2{color:var(--cy)}
+.spin{width:14px;height:14px;border:2px solid #1b5560;border-top-color:var(--cy);border-radius:50%;animation:sp 1s linear infinite;display:inline-block;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:3s}}
+@media (max-width:1280px){.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.cols,.cols2{grid-template-columns:repeat(2,minmax(0,1fr))}.flow{grid-template-columns:repeat(3,minmax(0,1fr))}.node:nth-child(3n)::after{display:none}}
+@media (max-width:900px){.app{grid-template-columns:60px 1fr}nav button span{display:none}nav button{justify-content:center;padding:10px 0}.brand small{display:none}}
+@media (max-width:640px){
+ .app{grid-template-columns:1fr;grid-template-rows:52px 1fr}nav{display:none}header{padding:0 10px}.brand small,.badge,.adm-name{display:none}
+ main{padding:12px 12px calc(76px + var(--safe-b))}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stats .stat:first-child{grid-column:1/-1}
+ .cols,.cols2{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.node:not(:last-child)::after{right:auto;left:50%;top:auto;bottom:-11px;width:0;height:11px;border-top:0;border-left:2px solid var(--cy)}
+ .mobile-only{display:block}.desk-only{display:none}
+ .tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;background:#050b11f2;border-top:1px solid var(--line);padding:6px 6px calc(6px + var(--safe-b));z-index:30}
+ .tabbar button{background:none;border:0;display:grid;justify-items:center;gap:2px;font-size:11px;color:var(--mut);padding:4px}.tabbar button[aria-current=page]{color:var(--cy)}
+ .menu{position:fixed;left:10px;right:10px;width:auto;top:calc(56px + var(--safe-t))}
+}
+#conn{display:inline-block!important;color:var(--mut)}#conn.live{color:var(--gr);border-color:#1d5a3a}#conn.error{color:var(--rd);border-color:#6a2a34}#conn.connecting{color:var(--am)}
+.fld{display:grid;gap:4px;margin-bottom:12px}.fld label{font-size:12px;color:var(--mut)}
+.fld input,.fld textarea{background:#06111a;border:1px solid var(--line);color:var(--tx);border-radius:8px;padding:9px 10px;font:inherit;width:100%}
+pre{white-space:pre-wrap;word-break:break-word;background:#06111a;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;max-height:260px;overflow:auto;margin:8px 0}
+.btn.warn{border-color:#6a2a34;color:var(--rd);background:#1a0a0e}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
+ <div class="brand"><div><b>CIPHERX AI</b> + PAGER-X<small>Autonomous Operations Command Center</small></div></div>
+ <span class="badge mono">v1.0.0</span>
+ <span class="badge mono" id="conn" role="status">Not configured</span>
+ <div class="sp"></div>
+ <div class="menuwrap"><button class="ib" id="nb" aria-haspopup="true" aria-expanded="false" aria-label="Notifications"><svg class="i" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 1112 0v5l2 2H4z"/><path d="M10 20a2 2 0 004 0"/></svg><span class="dot" id="nc" hidden>0</span></button>
+  <div class="menu" id="nm" role="menu" hidden></div></div>
+ <div class="menuwrap"><button class="ib" id="ab" aria-haspopup="true" aria-expanded="false" aria-label="Operator menu"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span class="adm-name">Operator</span></button>
+  <div class="menu" id="am" role="menu" hidden></div></div>
+</header>
+<nav id="nav" aria-label="Primary"></nav>
+<main id="main" tabindex="-1"></main>
+</div>
+<div class="tabbar" id="tabbar" role="navigation" aria-label="Mobile"></div>
+<dialog id="dlg" aria-labelledby="dt"><h2 id="dt"></h2><div id="db"></div><div style="text-align:right"><button class="btn" id="dc">Close</button></div></dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+<script>
+"use strict";
+const P={dash:"M3 12l9-8 9 8M5 10v10h14V10",ai:"M12 3a4 4 0 00-4 4v1a4 4 0 000 8v1a4 4 0 008 0v-1a4 4 0 000-8V7a4 4 0 00-4-4zM12 8v8",agents:"M12 4a3 3 0 100 6 3 3 0 000-6zM5 20c0-4 3-6 7-6s7 2 7 6",squads:"M8 8a3 3 0 100 .1M16 8a3 3 0 100 .1M2 19c0-3 2-5 6-5M22 19c0-3-2-5-6-5M9 19c0-3 1-5 3-5s3 2 3 5",auto:"M12 8a4 4 0 100 8 4 4 0 000-8zM12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2",jobs:"M4 7h16v12H4zM9 7V4h6v3M4 12h16",mon:"M3 12h4l2-6 4 12 2-6h6",proj:"M3 6h7l2 2h9v11H3z",pager:"M7 3h10v18H7zM10 7h4M10 17h4",wifi:"M2 9a15 15 0 0120 0M5 13a10 10 0 0114 0M8.5 16.5a5 5 0 017 0M12 20h.01",net:"M12 3v6M12 15v6M5 12h14M12 9a3 3 0 100 6 3 3 0 000-6zM3 12m-1 0a1 1 0 102 0 1 1 0 10-2 0M21 12m-1 0a1 1 0 102 0 1 1 0 10-2 0",hw:"M7 7h10v10H7zM10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4",re:"M10 4a6 6 0 100 12 6 6 0 000-12zM15 15l6 6M8 10h4",sec:"M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z",mem:"M4 6c0-2 16-2 16 0s-16 2-16 0v12c0 2 16 2 16 0V6M4 12c0 2 16 2 16 0",key:"M14 10a4 4 0 11-3 6.5L4 20v-3l7-7M16 8h.01",rep:"M6 3h9l4 4v14H6zM9 12h7M9 16h7",set:"M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0M16 4v4M10 10v4M18 16v4",bell:"M6 16V11a6 6 0 1112 0v5l2 2H4z",ok:"M5 12l5 5 9-10",warn:"M12 4l9 16H3zM12 10v4",info:"M12 8h.01M11 12h1v5h1M12 3a9 9 0 100 18 9 9 0 000-18",dl:"M12 4v12M7 11l5 5 5-5M5 20h14",mic:"M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3zM6 11a6 6 0 0012 0M12 17v4",send:"M4 12l16-8-6 16-3-7z",x:"M6 6l12 12M18 6L6 18",code:"M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14",user:"M12 4a4 4 0 100 8 4 4 0 000-8zM4 21c1-4 4-6 8-6s7 2 8 6",phone:"M8 3h8v18H8zM11 18h2",out:"M15 4h5v16h-5M10 8l-4 4 4 4M6 12h11"};
+const I=(n,c="")=>`<svg class="i ${c}" viewBox="0 0 24 24" aria-hidden="true"><path d="${P[n]||P.info}"/></svg>`;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const NAV=[["dash","Dashboard","dash"],["ai","Master AI","ai"],["agents","Agents","agents"],["squads","Squads","squads"],["auto","Automation","auto"],["jobs","Jobs","jobs"],["mon","Monitor","mon"],["proj","Projects","proj"],["pager","PAGER-X","pager"],["wifi","WiFi Pineapple","wifi"],["net","Network Ops","net"],["hw","Hardware C2","hw"],["re","RE Lab","re"],["sec","Security","sec"],["mem","Memory","mem"],["key","API Vault","key"],["rep","Reports","rep"],["set","Settings","set"]];
+const SQ=[["App Builder","code","cy"],["RE","re","vi"],["Security","sec","gr"],["Hardware","hw","am"],["Automation","auto","bl"]];
+/* ---------- config (user-entered endpoints only) ---------- */
+const KEY="cipherx.cfg.v1";
+let cfg={base:"",token:"",ws:"",readTs:0,devs:[{id:"PAGER-X",url:""},{id:"WiFi Pineapple",url:""}]};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"{}");cfg={...cfg,...s};if(!Array.isArray(cfg.devs)||cfg.devs.length!==2)cfg.devs=[{id:"PAGER-X",url:""},{id:"WiFi Pineapple",url:""}]}catch{}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(cfg))}catch{}};
+const B=()=>cfg.base.trim().replace(/\/+$/,"");
+const live={orch:{st:"idle",msg:"",data:null},devs:[{st:"idle",msg:"",data:null},{st:"idle",msg:"",data:null}],tele:{st:"idle",msg:"",cpu:[],ram:[],net:[]}};
+const S={view:"dash",sec:{st:"idle",msg:"",data:null,key:""}};
+/* ---------- network ---------- */
+async function jf(url,opt={}){const c=new AbortController(),t=setTimeout(()=>c.abort(),6000);
+ try{const h={Accept:"application/json",...(cfg.token?{Authorization:"Bearer "+cfg.token}:{}),...(opt.body?{"Content-Type":"application/json"}:{})};
+  const r=await fetch(url,{...opt,headers:h,signal:c.signal});if(!r.ok)throw new Error("HTTP "+r.status);
+  const tx=await r.text();try{return tx?JSON.parse(tx):{}}catch{throw new Error("Response is not valid JSON")}}
+ catch(e){throw new Error(e.name==="AbortError"?"Timed out":(e.message||"Network error"))}finally{clearTimeout(t)}}
+async function pollOrch(){const o=live.orch;if(!B()){o.st="idle";o.data=null;o.msg="";return paint()}
+ if(o.st!=="live"){o.st="connecting";paint()}
+ try{o.data=await jf(B()+"/api/status");o.st="live";o.msg=""}catch(e){o.st="error";o.msg=e.message;o.data=null}paint()}
+async function pollDev(i){const d=live.devs[i],u=(cfg.devs[i].url||"").trim();if(!u){d.st="idle";d.data=null;d.msg="";return paint()}
+ if(d.st!=="live"){d.st="connecting";paint()}
+ try{d.data=await jf(u);d.st="live";d.msg=""}catch(e){d.st="error";d.msg=e.message;d.data=null}paint()}
+let ws=null,wsT=null,wsBack=3000;
+function connectTele(){clearTimeout(wsT);if(ws){ws.onclose=null;try{ws.close()}catch{}ws=null}
+ const t=live.tele;t.cpu=[];t.ram=[];t.net=[];const u=cfg.ws.trim();
+ if(!u){t.st="idle";t.msg="";return paint()}
+ t.st="connecting";paint();
+ try{ws=new WebSocket(u)}catch(e){t.st="error";t.msg="Invalid WebSocket URL";return paint()}
+ ws.onopen=()=>{t.st="live";t.msg="";wsBack=3000;paint()};
+ ws.onmessage=e=>{try{const m=JSON.parse(e.data);["cpu","ram","net"].forEach(k=>{const v=Number(m[k]);if(Number.isFinite(v)){t[k].push(Math.max(0,Math.min(100,v)));if(t[k].length>60)t[k].shift()}});paint()}catch{}};
+ ws.onerror=()=>{t.msg="Connection error"};
+ ws.onclose=()=>{t.st="error";t.msg=t.msg||"Disconnected, retrying";paint();wsT=setTimeout(connectTele,wsBack);wsBack=Math.min(wsBack*2,15000)}}
+function startAll(){pollOrch();pollDev(0);pollDev(1);connectTele()}
+setInterval(()=>{if(document.hidden)return;pollOrch();pollDev(0);pollDev(1)},4000);
+/* ---------- helpers ---------- */
+const g=(o,p)=>p.split(".").reduce((a,k)=>a==null?a:a[k],o);
+const val=(o,p,suf="")=>{const v=g(o,p);return v==null||typeof v==="object"?"\u2014":esc(v)+suf};
+const STL={idle:["Not configured","c-am"],connecting:["Connecting\u2026","c-am"],live:["Connected","c-gr"],error:["Error","c-rd"]};
+const LV={ok:["ok","gr"],info:["info","bl"],warn:["warn","am"],error:["warn","rd"]};
+const D=()=>live.orch.data;
+const tm=ts=>{const d=new Date(ts);return isNaN(d)?"":d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})};
+function toast(t){const e=$("#toast");e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,3000)}
+function modal(t,h){$("#dt").textContent=t;$("#db").innerHTML=h;const d=$("#dlg");if(!d.open)d.showModal()}
+$("#dc").onclick=()=>$("#dlg").close();
+/* ---------- fragments ---------- */
+function banner(){const o=live.orch;
+ if(o.st==="live")return `<div class="bn" style="color:var(--gr);border-color:#1d5a3a;background:#07160e" role="status">${I("ok")}<span>Orchestrator connected: ${esc(B())}</span></div>`;
+ if(o.st==="connecting")return `<div class="bn" role="status"><span class="spin"></span><span>Connecting to ${esc(B())}\u2026</span></div>`;
+ if(o.st==="error")return `<div class="bn" style="color:var(--rd);border-color:#6a2a34;background:#1a0a0e" role="alert">${I("warn")}<span>Orchestrator unreachable (${esc(o.msg)}). Showing no data until the connection is restored.</span></div>`;
+ return `<div class="bn" role="status">${I("info")}<span>No orchestrator configured. <a href="#" data-v="set" style="color:var(--cy)">Open Settings</a> to enter your endpoints. Nothing is displayed until a live connection is made.</span></div>`}
+function statsHTML(){const d=D(),ag=d?`${val(d,"agents.active")}`:"\u2014";
+ const S5=[["Master AI",d?val(d,"master.state"):"\u2014","ai","cy",d?"":"no connection","ai"],["Active Agents",ag,"agents","gr",d&&g(d,"agents.total")!=null?"of "+esc(g(d,"agents.total"))+" provisioned":"","agents"],["Operational Squads",d&&Array.isArray(d.squads)?d.squads.length:"\u2014","squads","vi","","squads"],["Active Jobs",d?val(d,"jobs.running"):"\u2014","jobs","am",d&&g(d,"jobs.queued")!=null?esc(g(d,"jobs.queued"))+" queued":"","jobs"],["Completed Jobs",d?val(d,"jobs.completed"):"\u2014","ok","bl","","jobs"]];
+ return S5.map(([l,v,i,c,s,t])=>`<button class="card stat" data-v="${t}" aria-label="${l}: ${v.toString().replace(/<[^>]*>/g,"")}"><div class="l c-${c}">${I(i)}<span style="color:var(--mut)">${l}</span></div><div class="v c-${c}">${v}</div><div class="l">${s||"&nbsp;"}</div></button>`).join("")}
+function squadHTML(){const d=D(),list=d&&Array.isArray(d.squads)?d.squads:[];
+ return SQ.map(([n,i,c],k)=>{const s=list.find(x=>String(x.name).toLowerCase()===n.toLowerCase()),p=s&&Number.isFinite(+s.health)?Math.round(+s.health):null;
+ return `<button class="sq" data-sq="${k}" aria-label="${n} squad ${p==null?"no data":p+" percent"}"><span class="c-${c}">${I(i)}</span><span><span class="nm">${n}</span><span class="bar" style="display:block;--c:var(--${c=="cy"?"cy":c=="vi"?"vi":c=="gr"?"gr":c=="am"?"am":"bl"})"><i style="width:${p||0}%"></i></span></span><b class="mono c-${c}">${p==null?"\u2014":p+"%"}</b></button>`}).join("")}
+function teleHTML(){const t=live.tele,[l,c]=STL[t.st];
+ const m=[["CPU","#22e5d4",t.cpu],["RAM","#4aa3ff",t.ram],["Network","#a78bfa",t.net]];
+ const stat=`<div class="legend"><span class="${c}">${l}${t.msg?": "+esc(t.msg):""}</span></div>`;
+ if(t.st==="idle")return stat+`<div class="empty">Set a telemetry WebSocket URL in Settings to stream live CPU, RAM and network values.</div>`;
+ const lg=`<div class="legend">${m.map(([n,col,a])=>`<span style="--c:${col}"><i></i>${n} <b class="mono">${a.length?a.at(-1).toFixed(0)+"%":"\u2014"}</b></span>`).join("")}</div>`;
+ if(!t.cpu.length&&!t.ram.length&&!t.net.length)return stat+lg+`<div class="empty">${t.st==="live"?"Waiting for the first message\u2026":"No data received."}</div>`;
+ const W=560,H=190,L=28,Bm=18,pw=W-L-4,ph=H-Bm-6;
+ const pts=a=>a.map((v,i)=>`${(L+i*pw/Math.max(a.length-1,1)).toFixed(1)},${(6+ph*(1-v/100)).toFixed(1)}`).join(" ");
+ const grid=[0,50,100].map(v=>{const y=6+ph*(1-v/100);return `<line x1="${L}" x2="${W-4}" y1="${y}" y2="${y}" stroke="#16303d"/><text x="${L-5}" y="${y+4}" fill="#7f98a5" font-size="10" text-anchor="end">${v}%</text>`}).join("");
+ const xl=[["oldest",L,"start"],["now",W-4,"end"]].map(([x,p,a])=>`<text x="${p}" y="${H-3}" fill="#7f98a5" font-size="10" text-anchor="${a}">${x}</text>`).join("");
+ const ln=(a,c)=>a.length>1?`<polyline points="${pts(a)}" fill="none" stroke="${c}" stroke-width="2" stroke-linejoin="round"/>`:"";
+ return stat+lg+`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Live telemetry chart">${grid}${xl}${ln(t.net,"#a78bfa")}${ln(t.ram,"#4aa3ff")}${ln(t.cpu,"#22e5d4")}</svg>`}
+function devHTML(){return cfg.devs.map((dv,k)=>{const d=live.devs[k],[l,c]=STL[d.st],x=d.data;
+ const num=v=>Number.isFinite(+v)&&v!==null&&v!==""?Math.max(0,Math.min(100,+v)):null;
+ const cpu=x?num(x.cpu):null,ram=x?num(x.ram):null,ex=x&&x.uptime!=null?["Uptime",x.uptime]:["Mode",x&&x.mode!=null?x.mode:"\u2014"];
+ return `<div class="card"><h2>${I(k?"wifi":"pager")} ${esc(dv.id)}</h2><div class="dev"><div class="r">State <span class="pill ${c}" style="border-color:currentColor">${x&&x.state?esc(x.state):l}</span></div>${d.st==="error"?`<div class="r c-rd">${esc(d.msg)}</div>`:""}<div class="r">Local IP <b class="mono">${val(x,"ip")}</b></div><div class="r">${ex[0]} <b>${esc(ex[1])}</b></div><div class="r">CPU <b class="mono">${cpu==null?"\u2014":cpu+"%"}</b></div><div class="bar"><i style="width:${cpu||0}%"></i></div><div class="r">RAM <b class="mono">${ram==null?"\u2014":ram+"%"}</b></div><div class="bar" style="--c:var(--bl)"><i style="width:${ram||0}%"></i></div></div><button class="btn" data-dev="${k}" aria-label="Open ${esc(dv.id)} Control Panel">Control Panel</button></div>`}).join("")}
+function secHTML(){const s=D()&&D().security,rows=[["Critical","critical","rd"],["High","high","am"],["Medium","medium","bl"],["Low","low","gr"]];
+ return `<div><span class="pill ${s?"c-cy":"c-am"}" style="border-color:currentColor">Threat level: ${s?val(s,"level"):"\u2014"}</span></div><div class="sev">${rows.map(([l,k,c])=>`<div><b class="c-${c}">${s?val(s,k):"\u2014"}</b><span style="color:var(--mut);font-size:12px">${l}</span></div>`).join("")}</div><button class="btn" id="secd">View Details</button>`}
+function actHTML(){const a=D()&&Array.isArray(D().activity)?D().activity.slice(0,8):null;
+ if(!a)return `<div class="empty">No activity data.</div>`;if(!a.length)return `<div class="empty">No recent events reported.</div>`;
+ return `<ul class="feed">${a.map(e=>{const [i,c]=LV[e.level]||LV.info;return `<li><span class="c-${c}">${I(i)}</span><span>${esc(e.text)}</span><time>${tm(e.ts)}</time></li>`}).join("")}</ul>`}
+function healthHTML(){const d=D(),h=d&&Number.isFinite(+d.health)?Math.round(+d.health):null;
+ return `<div class="health"><div class="ring" style="--p:${h||0}" role="img" aria-label="Health ${h==null?"unknown":h+" percent"}"><span>${h==null?"\u2014":h+"%"}</span></div><div class="dev" style="flex:1"><div class="r">Orchestrator <b class="${STL[live.orch.st][1]}">${STL[live.orch.st][0]}</b></div><div class="r">Agents active <b>${d?val(d,"agents.active"):"\u2014"}</b></div><div class="r">Devices connected <b>${live.devs.filter(x=>x.st==="live").length} / 2</b></div></div></div>`}
+function repHTML(){const ok=!!D();return `<div class="rep">${["JSON","CSV"].map(f=>`<button data-exp="${f}" ${ok?"":"disabled"} aria-label="Export live snapshot as ${f}">${I("dl","c-cy")}${f}</button>`).join("")}</div>${ok?"":`<p style="color:var(--mut);font-size:12px">Exports use the live orchestrator snapshot. Connect first.</p>`}`}
+const flow=[["user","User Input","Text, voice, API"],["phone","Android App","Mobile client"],["ai","Master Orchestrator","Plans &amp; routes","hl"],["squads","Operational Squads","5 squads"],["hw","Devices","PAGER-X, Pineapple"],["rep","Reports &amp; Insights","Exports, trends"]];
+function assistant(){return `<form class="assist" data-assist aria-label="Assistant"><input aria-label="Ask the orchestrator" placeholder="Ask the orchestrator\u2026" autocomplete="off">${(window.SpeechRecognition||window.webkitSpeechRecognition)?`<button type="button" class="ib" data-mic aria-label="Voice input">${I("mic")}</button>`:""}<button class="ib" aria-label="Send">${I("send")}</button></form><div class="reply" data-reply hidden></div>`}
+/* ---------- views ---------- */
+function dashboard(){
+ const tiles=[["dash","Dashboard","dash"],["agents","Agents","agents"],["pager","PAGER-X","pager"],["wifi","WiFi Pineapple","wifi"],["re","Reverse Eng.","re"],["sec","Security","sec"],["auto","Automation","auto"],["proj","Projects","proj"],["hw","Hardware","hw"],["net","Network","net"],["mon","Telemetry","mon"],["rep","Reports","rep"]].map(([k,l,i])=>`<button data-v="${k}">${I(i,"c-cy")}${l}</button>`).join("");
+ return `<div id="banner">${banner()}</div><h1>Command Center</h1>
+ <section class="mobile-only card" style="margin-bottom:14px" aria-label="Assistant"><h2>${I("ai")} Assistant</h2>${assistant()}<div class="tiles">${tiles}</div></section>
+ <section class="grid stats" id="statsBox" aria-label="Summary">${statsHTML()}</section>
+ <div class="grid cols"><section class="card"><h2>Squad Status</h2><div id="squadBox">${squadHTML()}</div></section>
+ <section class="card"><h2>Real-time Telemetry</h2><div id="teleBox">${teleHTML()}</div></section>
+ <section class="card"><h2>Recent Activity</h2><div id="actBox">${actHTML()}</div></section></div>
+ <div class="grid cols2"><div style="display:contents" id="devBox">${devHTML()}</div><section class="card"><h2>Security Overview</h2><div id="secBox">${secHTML()}</div></section></div>
+ <section class="card" style="margin-bottom:14px"><h2>System Architecture</h2><div class="flow">${flow.map(([i,t,s,h])=>`<div class="node ${h||""}"><span class="c-cy">${I(i)}</span><b>${t}</b><span style="color:var(--mut)">${s}</span></div>`).join("")}</div></section>
+ <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"><section class="card"><h2>Reports</h2><div id="repBox">${repHTML()}</div></section><section class="card"><h2>System Health</h2><div id="healthBox">${healthHTML()}</div></section><section class="card desk-only"><h2>${I("ai")} Assistant</h2>${assistant()}</section></div>`}
+function table(d){
+ if(Array.isArray(d)){if(!d.length)return `<div class="empty">The endpoint returned an empty list.</div>`;
+  if(typeof d[0]!=="object"||d[0]===null)return `<pre>${esc(JSON.stringify(d,null,2))}</pre>`;
+  const ks=[...new Set(d.flatMap(r=>Object.keys(r)))];return `<div style="overflow-x:auto"><table><thead><tr>${ks.map(k=>`<th>${esc(k)}</th>`).join("")}</tr></thead><tbody>${d.map(r=>`<tr>${ks.map(k=>`<td>${esc(typeof r[k]==="object"?JSON.stringify(r[k]):r[k])}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`}
+ if(d&&typeof d==="object"){const e=Object.entries(d);return e.length?`<table><tbody>${e.map(([k,v])=>`<tr><th>${esc(k)}</th><td>${esc(typeof v==="object"?JSON.stringify(v):v)}</td></tr>`).join("")}</tbody></table>`:`<div class="empty">Empty response.</div>`}
+ return `<pre>${esc(JSON.stringify(d))}</pre>`}
+async function loadSection(k){const s=S.sec;s.key=k;s.data=null;s.msg="";
+ if(!B()){s.st="idle";return paintSec()}s.st="connecting";paintSec();
+ try{s.data=await jf(B()+"/api/"+encodeURIComponent(k));if(S.view===k){s.st="live"}}catch(e){s.st="error";s.msg=e.message}if(S.view===k)paintSec()}
+function paintSec(){const b=$("#secView");if(!b)return;const s=S.sec;
+ b.innerHTML=s.st==="idle"?`<div class="empty">No orchestrator configured. <a href="#" data-v="set" style="color:var(--cy)">Open Settings</a>.</div>`:s.st==="connecting"?`<div class="empty"><span class="spin"></span> Loading from ${esc(B())}/api/${esc(s.key)}\u2026</div>`:s.st==="error"?`<div class="empty c-rd">Request failed: ${esc(s.msg)}</div>`:table(s.data);
+ b.querySelectorAll("[data-v]").forEach(x=>x.onclick=e=>{e.preventDefault();go(x.dataset.v)})}
+function sectionView(k){const n=NAV.find(x=>x[0]===k);return `<div id="banner">${banner()}</div><h1>${n[1]}</h1><section class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><h2 style="margin:0">GET /api/${k}</h2><button class="btn" style="margin:0" id="reload">Refresh</button></div><div id="secView"></div></section>`}
+function reportsView(){return `<div id="banner">${banner()}</div><h1>Reports</h1><section class="card"><h2>Export live snapshot</h2><div id="repBox">${repHTML()}</div></section><section class="card" style="margin-top:14px"><h2>Server reports (GET /api/reports)</h2><div id="secView"></div></section>`}
+function settingsView(){const f=(id,l,v,t="text",ph="")=>`<div class="fld"><label for="${id}">${l}</label><input id="${id}" type="${t}" value="${esc(v)}" placeholder="${ph}" autocomplete="off" autocapitalize="off" spellcheck="false"></div>`;
+ return `<div id="banner">${banner()}</div><h1>Settings &amp; API Vault</h1><form class="card" id="cfgf" style="max-width:640px"><h2>Live connections</h2>${f("c-base","Orchestrator base URL",cfg.base,"url","http://192.168.1.10:8080")}${f("c-tok","API token (sent as Bearer header)",cfg.token,"password")}${f("c-ws","Telemetry WebSocket URL",cfg.ws,"text","ws://192.168.1.10:8080/telemetry")}${cfg.devs.map((d,k)=>f("c-d"+k,d.id+" status URL",d.url,"url","http://192.168.4."+(k?37:21)+"/status")).join("")}<p style="color:var(--mut);font-size:12px">Stored only on this device (local storage, unencrypted). HTTP and WS are allowed for local-network use; prefer HTTPS/WSS across untrusted networks.</p><button class="btn">Save and connect</button> <button type="button" class="btn warn" id="clrcfg">Clear all</button></form>`}
+function render(){const v=S.view,m=$("#main");
+ m.innerHTML=v==="dash"?dashboard():v==="set"||v==="key"?settingsView():v==="rep"?reportsView():sectionView(v);bind();
+ if(v==="rep"||(v!=="dash"&&v!=="set"&&v!=="key"))loadSection(v==="rep"?"reports":v);paint()}
+function go(v){S.view=v;closeMenus();buildNav();render();$("#main").focus({preventScroll:true});scrollTo(0,0)}
+function buildNav(){$("#nav").innerHTML=NAV.map(([k,l,i])=>`<button data-v="${k}" ${S.view===k?'aria-current="page"':""} aria-label="${l}" title="${l}">${I(i)}<span>${l}</span></button>`).join("");
+ const T=[["dash","Home","dash"],["agents","Agents","agents"],["sec","Security","sec"],["rep","Reports","rep"]];
+ $("#tabbar").innerHTML=T.map(([k,l,i])=>`<button data-v="${k}" ${S.view===k?'aria-current="page"':""}>${I(i)}${l}</button>`).join("");
+ document.querySelectorAll("#nav [data-v],#tabbar [data-v]").forEach(b=>b.onclick=()=>go(b.dataset.v))}
+/* ---------- paint live parts ---------- */
+function alerts(){const a=D()&&Array.isArray(D().activity)?D().activity:[];return a.filter(e=>e.level==="warn"||e.level==="error")}
+function paint(){const o=live.orch,[l,c]=STL[o.st],cn=$("#conn");cn.textContent=o.st==="live"?"Live":o.st==="error"?"Offline":l;cn.className="badge mono "+o.st;
+ const n=alerts().filter(e=>new Date(e.ts).getTime()>cfg.readTs).length,nc=$("#nc");nc.textContent=n;nc.hidden=!n;$("#nb").setAttribute("aria-label",n?`Notifications, ${n} unread`:"Notifications");
+ const set=(id,h)=>{const e=$("#"+id);if(e)e.innerHTML=h};
+ set("banner",banner());document.querySelectorAll("#banner [data-v]").forEach(x=>x.onclick=e=>{e.preventDefault();go(x.dataset.v)});
+ if(S.view==="dash"){set("statsBox",statsHTML());set("squadBox",squadHTML());set("teleBox",teleHTML());set("actBox",actHTML());set("devBox",devHTML());set("secBox",secHTML());set("repBox",repHTML());set("healthBox",healthHTML());bindLive()}
+ if(S.view==="rep")set("repBox",repHTML());if(S.view==="rep")bindLive()}
+/* ---------- actions ---------- */
+function bindLive(){const m=$("#main");
+ m.querySelectorAll("#statsBox [data-v]").forEach(b=>b.onclick=()=>go(b.dataset.v));
+ m.querySelectorAll("[data-sq]").forEach(b=>b.onclick=()=>{const n=SQ[+b.dataset.sq][0],l=D()&&D().squads||[],s=l.find(x=>String(x.name).toLowerCase()===n.toLowerCase());modal(n+" squad",s?table(s):`<p>No live data for this squad.</p>`)});
+ m.querySelectorAll("[data-dev]").forEach(b=>b.onclick=()=>devPanel(+b.dataset.dev));
+ const sd=$("#secd");if(sd)sd.onclick=()=>{const s=D()&&D().security;modal("Security Details",s?table(s):`<p>No live security data. Connect the orchestrator first.</p>`)};
+ m.querySelectorAll("[data-exp]").forEach(b=>b.onclick=()=>exportSnap(b.dataset.exp))}
+function devPanel(k){const dv=cfg.devs[k],d=live.devs[k];
+ modal(dv.id+" Control Panel",`<p class="pill ${STL[d.st][1]}" style="border-color:currentColor">${STL[d.st][0]}${d.msg?": "+esc(d.msg):""}</p>${d.data?table(d.data):""}${dv.url?`<form id="cmdf" class="assist" style="margin-top:10px"><input id="cmdi" aria-label="Command" placeholder="Command to POST to ${esc(dv.url)}/command"><button class="ib" aria-label="Send command">${I("send")}</button></form><pre id="cmdo" hidden></pre>`:`<p>No status URL configured for this device.</p>`}`);
+ const f=$("#cmdf");if(f)f.onsubmit=async e=>{e.preventDefault();const c=$("#cmdi").value.trim(),o=$("#cmdo");if(!c)return;o.hidden=false;o.textContent="Sending\u2026";
+  try{const r=await jf(dv.url.replace(/\/+$/,"")+"/command",{method:"POST",body:JSON.stringify({command:c})});o.textContent=JSON.stringify(r,null,2)}catch(x){o.textContent="Failed: "+x.message}}}
+async function exportSnap(f){const d=D();if(!d)return toast("No live data to export");
+ const flat=(o,p="")=>Object.entries(o).flatMap(([k,v])=>v&&typeof v==="object"&&!Array.isArray(v)?flat(v,p+k+"."):[[p+k,Array.isArray(v)?JSON.stringify(v):v]]);
+ const txt=f==="JSON"?JSON.stringify({exportedAt:new Date().toISOString(),source:B(),status:d},null,2):"key,value\n"+flat(d).map(([k,v])=>`"${k}","${String(v).replace(/"/g,'""')}"`).join("\n");
+ const name=`cipherx-snapshot-${Date.now()}.${f.toLowerCase()}`,P=window.Capacitor&&Capacitor.Plugins;
+ try{if(P&&P.Filesystem&&P.Share&&Capacitor.isNativePlatform()){const r=await P.Filesystem.writeFile({path:name,data:txt,directory:"CACHE",encoding:"utf8"});await P.Share.share({title:name,url:r.uri});toast("Snapshot ready to save or share")}
+  else{const u=URL.createObjectURL(new Blob([txt],{type:"text/plain"})),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);toast("Snapshot downloaded")}}
+ catch(e){toast("Export failed: "+(e.message||e))}}
+function bind(){const m=$("#main");
+ m.querySelectorAll("#banner [data-v]").forEach(x=>x.onclick=e=>{e.preventDefault();go(x.dataset.v)});
+ bindLive();const rl=$("#reload");if(rl)rl.onclick=()=>loadSection(S.view);
+ m.querySelectorAll("[data-assist]").forEach(f=>{const inp=f.querySelector("input"),r=f.parentElement.querySelector("[data-reply]"),mic=f.querySelector("[data-mic]");
+  if(mic)mic.onclick=()=>{const R=window.SpeechRecognition||window.webkitSpeechRecognition,x=new R();x.onresult=e=>{inp.value=e.results[0][0].transcript};x.onerror=e=>toast("Voice input: "+e.error);try{x.start()}catch(e){toast("Voice input unavailable")}};
+  f.onsubmit=async e=>{e.preventDefault();const q=inp.value.trim();if(!q){inp.focus();return}
+   r.hidden=false;if(!B()){r.textContent="Not connected: configure the orchestrator URL in Settings.";return}
+   r.innerHTML='<span class="spin"></span> Waiting for orchestrator\u2026';
+   try{const x=await jf(B()+"/api/assistant",{method:"POST",body:JSON.stringify({message:q})});inp.value="";r.textContent=typeof x.reply==="string"?x.reply:JSON.stringify(x)}catch(x){r.textContent="Request failed: "+x.message}}});
+ const cf=$("#cfgf");if(cf){cf.onsubmit=e=>{e.preventDefault();const v=id=>$("#"+id).value.trim(),bad=[];
+  const chk=(id,re,l)=>{const x=v(id);if(x&&!re.test(x))bad.push(l)};chk("c-base",/^https?:\/\/\S+$/i,"Orchestrator URL");chk("c-ws",/^wss?:\/\/\S+$/i,"WebSocket URL");chk("c-d0",/^https?:\/\/\S+$/i,"PAGER-X URL");chk("c-d1",/^https?:\/\/\S+$/i,"Pineapple URL");
+  if(bad.length)return toast("Invalid: "+bad.join(", "));
+  cfg.base=v("c-base");cfg.token=$("#c-tok").value;cfg.ws=v("c-ws");cfg.devs[0].url=v("c-d0");cfg.devs[1].url=v("c-d1");save();startAll();toast("Saved. Connecting\u2026")};
+  $("#clrcfg").onclick=()=>{cfg={...cfg,base:"",token:"",ws:"",devs:cfg.devs.map(d=>({id:d.id,url:""}))};save();startAll();render();toast("Configuration cleared")}}}
+/* ---------- menus ---------- */
+function closeMenus(){["nm","am"].forEach(i=>$("#"+i).hidden=true);["nb","ab"].forEach(i=>$("#"+i).setAttribute("aria-expanded","false"))}
+function toggle(bid,mid,fill){const m=$("#"+mid),open=m.hidden;closeMenus();if(open){fill();m.hidden=false;$("#"+bid).setAttribute("aria-expanded","true");const f=m.querySelector("button");if(f)f.focus()}}
+$("#nb").onclick=()=>toggle("nb","nm",()=>{const a=alerts();$("#nm").innerHTML=(a.length?a.slice(0,6).map(e=>`<div class="row" role="menuitem">${esc(e.text)}<small>${tm(e.ts)}</small></div>`).join("")+`<button role="menuitem" id="clr">Mark all as read</button>`:`<div class="row" role="menuitem">No alerts${live.orch.st==="live"?"":" (not connected)"}</div>`);const c=$("#clr");if(c)c.onclick=()=>{cfg.readTs=Date.now();save();closeMenus();paint()}});
+$("#ab").onclick=()=>toggle("ab","am",()=>{$("#am").innerHTML=`<div class="row">Operator<small>${STL[live.orch.st][0]}${B()?": "+esc(B()):""}</small></div><button role="menuitem" id="gs">Settings</button>`;$("#gs").onclick=()=>go("set")});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenus()});
+document.addEventListener("click",e=>{if(!e.target.closest(".menuwrap"))closeMenus()});
+buildNav();render();startAll();
+</script>
+</body>
+</html>
