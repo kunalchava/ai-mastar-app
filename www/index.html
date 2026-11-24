@@ -102,6 +102,19 @@ dialog h2{color:var(--cy)}
 .fld input,.fld textarea{background:#06111a;border:1px solid var(--line);color:var(--tx);border-radius:8px;padding:9px 10px;font:inherit;width:100%}
 pre{white-space:pre-wrap;word-break:break-word;background:#06111a;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;max-height:260px;overflow:auto;margin:8px 0}
 .btn.warn{border-color:#6a2a34;color:var(--rd);background:#1a0a0e}
+/* ---- premium sci-fi skin ---- */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(34,229,212,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(34,229,212,.055) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse 75% 55% at 50% 0%,#000 35%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 75% 55% at 50% 0%,#000 35%,transparent 100%)}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:repeating-linear-gradient(180deg,#ffffff02 0 2px,transparent 2px 4px)}
+.app,header,.toast,dialog{position:relative;z-index:1}
+.card{position:relative;isolation:isolate}
+.card::before{content:"";position:absolute;inset:0;border-radius:var(--r);padding:1px;background:linear-gradient(135deg,#22e5d466,transparent 35%,transparent 65%,#22e5d433);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:-1}
+.logo{position:relative}
+.logo::after{content:"";position:absolute;inset:-4px;border-radius:10px;border:1px solid #22e5d455;animation:hudpulse 2.6s ease-in-out infinite}
+@keyframes hudpulse{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+#conn.live{position:relative;padding-left:16px}
+#conn.live::before{content:"";position:absolute;left:6px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:hudpulse 1.7s ease-in-out infinite}
+.ai-diag{background:linear-gradient(165deg,#0b1f26,#071318);border-color:#1e4850}
+.ai-diag h2{color:var(--cy)}
 </style>
 </head>
 <body>
@@ -208,6 +221,22 @@ function actHTML(){const a=D()&&Array.isArray(D().activity)?D().activity.slice(0
  return `<ul class="feed">${a.map(e=>{const [i,c]=LV[e.level]||LV.info;return `<li><span class="c-${c}">${I(i)}</span><span>${esc(e.text)}</span><time>${tm(e.ts)}</time></li>`}).join("")}</ul>`}
 function healthHTML(){const d=D(),h=d&&Number.isFinite(+d.health)?Math.round(+d.health):null;
  return `<div class="health"><div class="ring" style="--p:${h||0}" role="img" aria-label="Health ${h==null?"unknown":h+" percent"}"><span>${h==null?"\u2014":h+"%"}</span></div><div class="dev" style="flex:1"><div class="r">Orchestrator <b class="${STL[live.orch.st][1]}">${STL[live.orch.st][0]}</b></div><div class="r">Agents active <b>${d?val(d,"agents.active"):"\u2014"}</b></div><div class="r">Devices connected <b>${live.devs.filter(x=>x.st==="live").length} / 2</b></div></div></div>`}
+/* ---------- plain-language AI diagnostics (\u0938\u094b\u092a\u094d\u092f\u093e \u092d\u093e\u0937\u0947\u0924 \u0938\u094d\u0925\u093f\u0924\u0940) ---------- */
+function explainStatus(){
+ const o=live.orch;
+ let orchTxt;
+ if(o.st==="idle")orchTxt="\u0911\u0930\u094d\u0915\u0947\u0938\u094d\u091f\u094d\u0930\u0947\u091f\u0930 \u0905\u091c\u0942\u0928 \u0938\u0947\u091f \u0915\u0947\u0932\u0947\u0932\u093e \u0928\u093e\u0939\u0940. Settings \u092e\u0927\u094d\u092f\u0947 \u091c\u093e\u0913\u0928 \u0924\u0941\u092e\u091a\u093e \u0938\u0930\u094d\u0935\u094d\u0939\u0930 \u092a\u0924\u094d\u0924\u093e \u091f\u093e\u0915\u093e.";
+ else if(o.st==="connecting")orchTxt="\u0911\u0930\u094d\u0915\u0947\u0938\u094d\u091f\u094d\u0930\u0947\u091f\u0930\u0936\u0940 \u091c\u094b\u0921\u0923\u0940 \u0939\u094b\u0924\u0947\u092f, \u0925\u094b\u0921\u0902 \u0925\u093e\u0902\u092c\u093e.";
+ else if(o.st==="live")orchTxt="\u0911\u0930\u094d\u0915\u0947\u0938\u094d\u091f\u094d\u0930\u0947\u091f\u0930 \u0935\u094d\u092f\u0935\u0938\u094d\u0925\u093f\u0924 \u091c\u094b\u0921\u0932\u0947\u0932\u093e \u0906\u0939\u0947 \u0906\u0923\u093f \u0921\u0947\u091f\u093e \u092f\u0947\u0924\u094b\u092f.";
+ else orchTxt=`\u0911\u0930\u094d\u0915\u0947\u0938\u094d\u091f\u094d\u0930\u0947\u091f\u0930\u0936\u0940 \u091c\u094b\u0921\u0923\u0940 \u0939\u094b\u0924 \u0928\u093e\u0939\u0940\u092f\u0947. \u0924\u093e\u0902\u0924\u094d\u0930\u093f\u0915 \u0915\u093e\u0930\u0923: "${esc(o.msg)}". \u092e\u094d\u0939\u0923\u091c\u0947 \u092c\u0939\u0941\u0924\u0947\u0915 \u0938\u0930\u094d\u0935\u094d\u0939\u0930 \u092c\u0902\u0926 \u0906\u0939\u0947, URL \u091a\u0941\u0915\u0940\u091a\u093e \u0906\u0939\u0947, \u0915\u093f\u0902\u0935\u093e \u092b\u094b\u0928 \u0935\u0947\u0917\u0933\u094d\u092f\u093e \u0928\u0947\u091f\u0935\u0930\u094d\u0915\u0935\u0930 \u0906\u0939\u0947 \u2014 Settings \u092e\u0927\u094d\u092f\u0947 \u092a\u0924\u094d\u0924\u093e \u0924\u092a\u093e\u0938\u093e.`;
+ const devTxt=live.devs.map((d,i)=>{const name=esc(cfg.devs[i].id);
+  if(d.st==="idle")return `${name}: \u0905\u091c\u0942\u0928 \u0915\u0949\u0928\u094d\u092b\u093f\u0917\u0930 \u0915\u0947\u0932\u0947\u0932\u0902 \u0928\u093e\u0939\u0940.`;
+  if(d.st==="connecting")return `${name}: \u091c\u094b\u0921\u0923\u0940 \u0939\u094b\u0924\u0947\u092f\u2026`;
+  if(d.st==="live")return `${name}: \u0935\u094d\u092f\u0935\u0938\u094d\u0925\u093f\u0924 \u0938\u0941\u0930\u0942 \u0906\u0939\u0947.`;
+  return `${name}: \u0938\u092e\u0938\u094d\u092f\u093e \u0906\u0939\u0947 \u2014 ${esc(d.msg||"\u0915\u093e\u0930\u0923 \u0938\u094d\u092a\u0937\u094d\u091f \u0928\u093e\u0939\u0940")}.`}).join(" ");
+ const a=alerts();
+ const alertTxt=a.length?`\u0917\u0947\u0932\u094d\u092f\u093e \u0915\u093e\u0939\u0940 \u0935\u0947\u0933\u093e\u0924 ${a.length} \u0907\u0936\u093e\u0930\u0947 \u0906\u0932\u0947 \u0906\u0939\u0947\u0924, \u0936\u0947\u0935\u091f\u091a\u093e: "${esc(a[0].text)}".`:"\u0938\u0927\u094d\u092f\u093e \u0915\u094b\u0923\u0924\u0947\u0939\u0940 \u0928\u0935\u0940\u0928 \u0907\u0936\u093e\u0930\u0947 \u0928\u093e\u0939\u0940\u0924.";
+ return `<p>${orchTxt}</p><p>${devTxt}</p><p>${alertTxt}</p><p style="color:var(--mut);font-size:12px">\u0939\u0940 \u092e\u093e\u0939\u093f\u0924\u0940 \u0938\u0927\u094d\u092f\u093e\u091a\u094d\u092f\u093e \u0938\u094d\u0915\u094d\u0930\u0940\u0928\u0935\u0930\u0940\u0932 \u0921\u0947\u091f\u093e\u0935\u0930\u0942\u0928 \u0924\u092f\u093e\u0930 \u0915\u0947\u0932\u0940 \u0906\u0939\u0947. \u0939\u0940 \u092e\u093e\u0939\u093f\u0924\u0940 \u092b\u0915\u094d\u0924 \u0938\u094d\u0925\u093f\u0924\u0940 \u0938\u093e\u0902\u0917\u0923\u094d\u092f\u093e\u0938\u093e\u0920\u0940 \u0906\u0939\u0947 \u2014 \u0915\u094b\u0923\u0924\u0940\u0939\u0940 \u0915\u0943\u0924\u0940 \u0938\u094d\u0935\u0924\u0903\u0939\u0942\u0928 \u0915\u0930\u0924 \u0928\u093e\u0939\u0940.</p>`}
 function repHTML(){const ok=!!D();return `<div class="rep">${["JSON","CSV"].map(f=>`<button data-exp="${f}" ${ok?"":"disabled"} aria-label="Export live snapshot as ${f}">${I("dl","c-cy")}${f}</button>`).join("")}</div>${ok?"":`<p style="color:var(--mut);font-size:12px">Exports use the live orchestrator snapshot. Connect first.</p>`}`}
 const flow=[["user","User Input","Text, voice, API"],["phone","Android App","Mobile client"],["ai","Master Orchestrator","Plans &amp; routes","hl"],["squads","Operational Squads","5 squads"],["hw","Devices","PAGER-X, Pineapple"],["rep","Reports &amp; Insights","Exports, trends"]];
 function assistant(){return `<form class="assist" data-assist aria-label="Assistant"><input aria-label="Ask the orchestrator" placeholder="Ask the orchestrator\u2026" autocomplete="off">${(window.SpeechRecognition||window.webkitSpeechRecognition)?`<button type="button" class="ib" data-mic aria-label="Voice input">${I("mic")}</button>`:""}<button class="ib" aria-label="Send">${I("send")}</button></form><div class="reply" data-reply hidden></div>`}
@@ -222,7 +251,7 @@ function dashboard(){
  <section class="card"><h2>Recent Activity</h2><div id="actBox">${actHTML()}</div></section></div>
  <div class="grid cols2"><div style="display:contents" id="devBox">${devHTML()}</div><section class="card"><h2>Security Overview</h2><div id="secBox">${secHTML()}</div></section></div>
  <section class="card" style="margin-bottom:14px"><h2>System Architecture</h2><div class="flow">${flow.map(([i,t,s,h])=>`<div class="node ${h||""}"><span class="c-cy">${I(i)}</span><b>${t}</b><span style="color:var(--mut)">${s}</span></div>`).join("")}</div></section>
- <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"><section class="card"><h2>Reports</h2><div id="repBox">${repHTML()}</div></section><section class="card"><h2>System Health</h2><div id="healthBox">${healthHTML()}</div></section><section class="card desk-only"><h2>${I("ai")} Assistant</h2>${assistant()}</section></div>`}
+ <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"><section class="card"><h2>Reports</h2><div id="repBox">${repHTML()}</div></section><section class="card"><h2>System Health</h2><div id="healthBox">${healthHTML()}</div></section><section class="card ai-diag"><h2>${I("ai")} सोप्या भाषेत स्थिती</h2><p style="color:var(--mut);font-size:12px;margin:0 0 10px">सध्या काय चालू आहे ते मराठीत सोप्या शब्दांत.</p><button class="btn" id="aiDiagBtn">${I("info")} समजावून सांगा</button></section><section class="card desk-only"><h2>${I("ai")} Assistant</h2>${assistant()}</section></div>`}
 function table(d){
  if(Array.isArray(d)){if(!d.length)return `<div class="empty">The endpoint returned an empty list.</div>`;
   if(typeof d[0]!=="object"||d[0]===null)return `<pre>${esc(JSON.stringify(d,null,2))}</pre>`;
@@ -261,7 +290,8 @@ function bindLive(){const m=$("#main");
  m.querySelectorAll("[data-sq]").forEach(b=>b.onclick=()=>{const n=SQ[+b.dataset.sq][0],l=D()&&D().squads||[],s=l.find(x=>String(x.name).toLowerCase()===n.toLowerCase());modal(n+" squad",s?table(s):`<p>No live data for this squad.</p>`)});
  m.querySelectorAll("[data-dev]").forEach(b=>b.onclick=()=>devPanel(+b.dataset.dev));
  const sd=$("#secd");if(sd)sd.onclick=()=>{const s=D()&&D().security;modal("Security Details",s?table(s):`<p>No live security data. Connect the orchestrator first.</p>`)};
- m.querySelectorAll("[data-exp]").forEach(b=>b.onclick=()=>exportSnap(b.dataset.exp))}
+ m.querySelectorAll("[data-exp]").forEach(b=>b.onclick=()=>exportSnap(b.dataset.exp));
+ const adb=$("#aiDiagBtn");if(adb)adb.onclick=()=>modal("AI निदान — सोपी भाषा",explainStatus())}
 function devPanel(k){const dv=cfg.devs[k],d=live.devs[k];
  modal(dv.id+" Control Panel",`<p class="pill ${STL[d.st][1]}" style="border-color:currentColor">${STL[d.st][0]}${d.msg?": "+esc(d.msg):""}</p>${d.data?table(d.data):""}${dv.url?`<form id="cmdf" class="assist" style="margin-top:10px"><input id="cmdi" aria-label="Command" placeholder="Command to POST to ${esc(dv.url)}/command"><button class="ib" aria-label="Send command">${I("send")}</button></form><pre id="cmdo" hidden></pre>`:`<p>No status URL configured for this device.</p>`}`);
  const f=$("#cmdf");if(f)f.onsubmit=async e=>{e.preventDefault();const c=$("#cmdi").value.trim(),o=$("#cmdo");if(!c)return;o.hidden=false;o.textContent="Sending\u2026";
